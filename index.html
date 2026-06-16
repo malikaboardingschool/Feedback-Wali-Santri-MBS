@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuesioner Evaluasi Malika Islamic Boarding School</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        malika: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a', // Dark blue theme
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #f8fafc;
+            background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%231e40af" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+        }
+        
+        .radio-custom:checked + div {
+            border-color: #1e40af;
+            background-color: #eff6ff;
+            color: #1e3a8a;
+        }
+        .radio-custom:checked + div svg {
+            color: #2563eb;
+        }
+        
+        /* Custom modal transition */
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 300ms, transform 300ms;
+        }
+        .modal-exit {
+            opacity: 1;
+        }
+        .modal-exit-active {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 300ms, transform 300ms;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800 min-h-screen pb-12">
+
+    <header class="bg-gradient-to-br from-malika-900 via-malika-800 to-malika-600 text-white shadow-md pt-12 pb-24 px-4 text-center">
+        <div class="max-w-3xl mx-auto">
+            <img src="https://iili.io/FsLlXA7.png" alt="Logo Malika Boarding School" class="w-24 h-24 object-contain mx-auto mb-4 bg-white rounded-full shadow-lg p-2">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Malika Islamic Boarding School</h1>
+            <p class="text-malika-100 text-lg">Evaluasi & Saran Wali Santri - Tahun Ajaran Berjalan</p>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 -mt-16">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            
+            <div class="bg-malika-50 border-b border-malika-100 p-6 md:p-8 text-center md:text-left">
+                <h2 class="text-xl font-semibold text-malika-900 mb-2">Assalamu'alaikum Warahmatullahi Wabarakatuh</h2>
+                <p class="text-gray-600 text-sm md:text-base leading-relaxed">
+                    Bapak/Ibu Wali Santri yang dirahmati Allah, kami mohon kesediaan waktunya untuk mengisi kuesioner evaluasi ini. 
+                    Masukan dan saran Anda sangat berarti bagi kami untuk meningkatkan kualitas pendidikan dan pelayanan di Malika Boarding School.
+                    Semua data akan dijaga kerahasiaannya.
+                </p>
+            </div>
+
+            <form id="evaluationForm" class="p-6 md:p-8 space-y-8">
+                
+                <!-- Section 1: Data Diri -->
+                <div class="space-y-5 border-b pb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 flex items-center border-l-4 border-malika-600 pl-3">
+                        <i class="fas fa-user-circle text-malika-600 mr-2"></i> Data Wali & Santri
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="md:col-span-2">
+                            <label for="namaWali" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap Wali *</label>
+                            <input type="text" id="namaWali" name="namaWali" required placeholder="Contoh: Budi Santoso"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-malika-500 focus:border-malika-500 transition outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label for="kelasSantri" class="block text-sm font-medium text-gray-700 mb-1">Kelas Santri *</label>
+                            <select id="kelasSantri" name="kelasSantri" required onchange="updateSantriList()"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-malika-500 focus:border-malika-500 transition outline-none bg-white">
+                                <option value="" disabled selected>-- Pilih Kelas --</option>
+                                <option value="VII A PUTRA">VII A PUTRA</option>
+                                <option value="VII B PUTRA">VII B PUTRA</option>
+                                <option value="VII A PUTRI">VII A PUTRI</option>
+                                <option value="VII B PUTRI">VII B PUTRI</option>
+                                <option value="10 Putra">10 Putra</option>
+                                <option value="10 Putri">10 Putri</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="namaSantri" class="block text-sm font-medium text-gray-700 mb-1">Nama Santri *</label>
+                            <select id="namaSantri" name="namaSantri" required disabled
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-malika-500 focus:border-malika-500 transition outline-none bg-gray-100 disabled:opacity-75 disabled:cursor-not-allowed">
+                                <option value="" disabled selected>Pilih kelas terlebih dahulu</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Evaluasi Layanan -->
+                <div class="space-y-6 border-b pb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 flex items-center border-l-4 border-malika-600 pl-3">
+                        <i class="fas fa-star text-malika-600 mr-2"></i> Evaluasi Layanan & Program Pesantren
+                    </h3>
+                    <p class="text-sm text-gray-500 -mt-2">Pilih skala 1 hingga 4 sesuai dengan tingkat kepuasan/penilaian Anda.</p>
+
+                    <!-- Question 1 -->
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <label class="block text-sm md:text-base font-medium text-gray-800 mb-3">1. Sejauh mana Anda puas dengan perkembangan akademik putra/putri Anda? *</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalAkademik" value="1 - Tidak Puas" required class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">1</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Tidak Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalAkademik" value="2 - Kurang" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">2</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Kurang</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalAkademik" value="3 - Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">3</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalAkademik" value="4 - Sangat Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">4</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Sangat Puas</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <label class="block text-sm md:text-base font-medium text-gray-800 mb-3">2. Sejauh mana dampak program MBS Anda rasakan? *</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalDampakMBS" value="1 - Tidak Puas" required class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">1</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Tidak Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalDampakMBS" value="2 - Kurang" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">2</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Kurang</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalDampakMBS" value="3 - Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">3</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalDampakMBS" value="4 - Sangat Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">4</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Sangat Puas</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <label class="block text-sm md:text-base font-medium text-gray-800 mb-3">3. Sejauh mana pembinaan adab dan akhlak dirasakan berdampak? *</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalAdab" value="1 - Tidak Puas" required class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">1</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Tidak Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalAdab" value="2 - Kurang" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">2</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Kurang</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalAdab" value="3 - Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">3</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalAdab" value="4 - Sangat Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">4</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Sangat Puas</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Question 4 -->
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <label class="block text-sm md:text-base font-medium text-gray-800 mb-3">4. Sejauh mana pengawasan musyrif/musyrifah sudah optimal? *</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalMusyrif" value="1 - Tidak Puas" required class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">1</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Tidak Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalMusyrif" value="2 - Kurang" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">2</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Kurang</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalMusyrif" value="3 - Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">3</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalMusyrif" value="4 - Sangat Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">4</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Sangat Puas</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 5 -->
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <label class="block text-sm md:text-base font-medium text-gray-800 mb-3">5. Sejauh mana Anda puas dengan kualitas makanan yang diberikan? *</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalMakanan" value="1 - Tidak Puas" required class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">1</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Tidak Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalMakanan" value="2 - Kurang" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">2</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Kurang</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalMakanan" value="3 - Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">3</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalMakanan" value="4 - Sangat Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">4</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Sangat Puas</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 6 -->
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <label class="block text-sm md:text-base font-medium text-gray-800 mb-3">6. Sejauh mana kebersihan lingkungan asrama terjaga? *</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalKebersihan" value="1 - Tidak Puas" required class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">1</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Tidak Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalKebersihan" value="2 - Kurang" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">2</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Kurang</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalKebersihan" value="3 - Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">3</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalKebersihan" value="4 - Sangat Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">4</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Sangat Puas</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 7 -->
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <label class="block text-sm md:text-base font-medium text-gray-800 mb-3">7. Sejauh mana penanganan kesehatan santri berjalan baik? *</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalKesehatan" value="1 - Tidak Puas" required class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">1</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Tidak Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalKesehatan" value="2 - Kurang" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">2</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Kurang</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalKesehatan" value="3 - Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">3</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalKesehatan" value="4 - Sangat Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">4</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Sangat Puas</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 8 -->
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <label class="block text-sm md:text-base font-medium text-gray-800 mb-3">8. Sejauh mana respon guru/wali kamar terhadap kebutuhan orang tua? *</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalRespon" value="1 - Tidak Puas" required class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">1</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Tidak Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalRespon" value="2 - Kurang" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">2</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Kurang</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalRespon" value="3 - Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">3</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Puas</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="evalRespon" value="4 - Sangat Puas" class="sr-only peer">
+                                <div class="h-full flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-xl text-gray-600 peer-checked:bg-malika-600 peer-checked:text-white peer-checked:border-malika-600 transition hover:border-malika-300">
+                                    <span class="text-xl font-bold mb-1">4</span>
+                                    <span class="text-xs md:text-sm text-center leading-tight">Sangat Puas</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Kepuasan Umum -->
+                <div class="space-y-6 border-b pb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 flex items-center border-l-4 border-malika-600 pl-3">
+                        <i class="fas fa-heart text-malika-600 mr-2"></i> Kepuasan Umum
+                    </h3>
+                    
+                    <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                        <label class="block text-sm md:text-base font-bold text-gray-800 mb-4">Secara umum, bagaimana tingkat kepuasan Anda terhadap layanan sekolah dan boarding? *</label>
+                        <div class="space-y-3">
+                            <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-white transition bg-white shadow-sm">
+                                <input type="radio" name="kepuasanUmum" value="Sangat Puas" required class="h-5 w-5 text-malika-600 focus:ring-malika-500 border-gray-300">
+                                <span class="text-gray-700 font-medium">Sangat Puas</span>
+                            </label>
+                            <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-white transition bg-white shadow-sm">
+                                <input type="radio" name="kepuasanUmum" value="Puas" class="h-5 w-5 text-malika-600 focus:ring-malika-500 border-gray-300">
+                                <span class="text-gray-700 font-medium">Puas</span>
+                            </label>
+                            <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-white transition bg-white shadow-sm">
+                                <input type="radio" name="kepuasanUmum" value="Kurang" class="h-5 w-5 text-malika-600 focus:ring-malika-500 border-gray-300">
+                                <span class="text-gray-700 font-medium">Kurang</span>
+                            </label>
+                            <label class="flex items-center space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-white transition bg-white shadow-sm">
+                                <input type="radio" name="kepuasanUmum" value="Tidak Puas" class="h-5 w-5 text-malika-600 focus:ring-malika-500 border-gray-300">
+                                <span class="text-gray-700 font-medium">Tidak Puas</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Pertanyaan Terbuka & Saran -->
+                <div class="space-y-5">
+                    <h3 class="text-lg font-semibold text-gray-800 flex items-center border-l-4 border-malika-600 pl-3">
+                        <i class="fas fa-comment-dots text-malika-600 mr-2"></i> Evaluasi Kualitatif & Saran
+                    </h3>
+
+                    <div>
+                        <label for="halTerbaik" class="block text-sm font-medium text-gray-700 mb-1">Apa hal terbaik yang Anda rasakan dari program boarding school ini? *</label>
+                        <textarea id="halTerbaik" name="halTerbaik" rows="3" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-malika-500 focus:border-malika-500 transition outline-none resize-none"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label for="tantangan" class="block text-sm font-medium text-gray-700 mb-1">Apa tantangan atau kendala yang masih dirasakan oleh putra/putri Anda? *</label>
+                        <textarea id="tantangan" name="tantangan" rows="3" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-malika-500 focus:border-malika-500 transition outline-none resize-none"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label for="programDitingkatkan" class="block text-sm font-medium text-gray-700 mb-1">Program apa yang menurut Anda perlu ditingkatkan? *</label>
+                        <textarea id="programDitingkatkan" name="programDitingkatkan" rows="3" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-malika-500 focus:border-malika-500 transition outline-none resize-none"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="saranMasukan" class="block text-sm font-medium text-gray-700 mb-1">Saran dan masukan untuk peningkatan layanan Malika Islamic Boarding School *</label>
+                        <textarea id="saranMasukan" name="saranMasukan" rows="4" required placeholder="Mohon tuliskan saran Anda dengan jelas..."
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-malika-500 focus:border-malika-500 transition outline-none resize-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t">
+                    <button type="submit" id="submitBtn" 
+                        class="w-full bg-gradient-to-r from-malika-600 to-malika-800 hover:from-malika-700 hover:to-malika-900 text-white font-semibold py-4 px-6 rounded-xl shadow-lg transition duration-200 flex justify-center items-center">
+                        <span id="btnText">Kirim Evaluasi</span>
+                        <i id="btnIcon" class="fas fa-paper-plane ml-2"></i>
+                        <!-- Loading spinner (hidden by default) -->
+                        <svg id="loadingSpinner" class="animate-spin ml-2 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                    <p class="text-xs text-center text-gray-400 mt-4">Jazakumullah Khairan atas partisipasi Anda.</p>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50 transition-opacity">
+        <div class="bg-white rounded-2xl p-8 max-w-sm w-full mx-4 shadow-2xl text-center transform scale-95 transition-transform" id="modalContent">
+            <div class="w-20 h-20 bg-malika-100 rounded-full flex items-center justify-center mx-auto mb-5">
+                <i class="fas fa-check text-4xl text-malika-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Alhamdulillah!</h3>
+            <p class="text-gray-600 mb-6">Data evaluasi Anda berhasil dikirim. Terima kasih atas masukan yang berharga untuk kemajuan Malika Boarding School.</p>
+            <button onclick="closeModal()" class="w-full bg-malika-600 hover:bg-malika-700 text-white font-medium py-3 rounded-lg transition">
+                Tutup & Selesai
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Database Santri
+        const dataSantri = {
+            "VII A PUTRA": [
+                "Athariz Chalief Saputra", "Ahmad Khomaini", "Al Athar Ghaizan Nobel", "Alzabar Akbar", "Arya Devano",
+                "Abyan Dzaky Hafizh Kurniawan", "Fadil Syafif Nugroho Sukri", "Fakhri Muhammad Mumtaz", "I Komang Raditiya Novian Pradana Putra", "Ibad Najwan",
+                "Ibni Shidqie Al Mumtazhar", "Kenzie Dastan Shalahuddin Zan", "Khaerul A'Zam Ismail", "Khairiy Rezki Adhinata", "Lionel Pratama Nugroho",
+                "Mahfidz Ardiansyah", "Mohamad Akromul Azam", "Mohammad Ezra Rafiandhika", "Muhammad Akhtar Al Hisyam", "Muhammad Al Fatih",
+                "Muhammad Fatir Albahri", "Muhammad Naufal Rizki", "Muhammad Syamil At Tsauri", "Nauval Abdul Rasyid", "Pranatantra Fachrie",
+                "Rajata Ibnu Faqih", "Reygi Antajun Hikaru", "Rifqi Irfan Hamizan", "Umar Al Jailaani", "Yossa Dzulfi Andrean",
+                "Zahran Sahil", "Rizky Setyo Nugroho", "Teuku Rizqi Mutha", "Muhammad Haikal Hidayatullah"
+            ],
+            "VII B PUTRA": [
+                "Abidzar Nuha Wafi", "Ach. Raihan Faiz As-Sudaisyi", "Ahmad Nazmu Durori", "Akbar Nurfatah Arsadi", "Akhdan Athaya Putra Zulfikar",
+                "Al Barra Ananta Putra", "Annabighoh Syabanu Gunawan", "Arrais Mahardika Rusli", "Athaya Kaysan Hakim", "Aufa Gilang Pratama",
+                "Bilal Abdul Aslam", "Brilliant Alziddan Mustofa", "Denny Maulana Yusuf", "Fathir Muhammad Fadhilah", "Haikal Ahfwan",
+                "Harry Harsya Shiddiq", "Ifan Sofyan", "Kenzie Adelio Tristan", "Khairul Walif", "Luthfirrahman Nafis Hananto",
+                "Muhammad Al-Gaza Putra Dewian", "Muhammad Arafa Ekiyano Febrian", "Muhammad Dilfa Fattan", "Muhammad Fahriansyah", "Muhammad Fathan Toriq",
+                "Muhammad Haikal Al Faisya", "Muhammad Najetullah", "Muhammad Raditya Fauzan", "Muhammad Waldan", "Rayhan Faiz Abdillah Hadiyanto",
+                "Sultan Fatih Setiawan", "Zhafran Tata Hidayat", "Muhammad Ali Shahib Aidid", "Fathin Aufa Arzaqi"
+            ],
+            "VII A PUTRI": [
+                "Adara Riyanti", "Aghniya Musamma Harahap", "Ahla Amny Maulidya", "Alivia Zahratukanza", "Ameera Syahida Ajie",
+                "Asyifa Mahira Lubis", "Bilqis Ghaisani Ahza", "Callysta Lareina Nabiha", "Cordelia Krisna Widyantary", "Deyanna Abigail Baligha Zephania",
+                "Filzah Ghaisani Fikriyah", "Indhieswara Maharani", "Kanaya Athallah Dzakiyyah", "Kawa'iba Puti Firmansyah", "Keisha Sahila Az Zahra",
+                "Yukqiu Natasha Ardi", "Khansa Ghina Rachmani", "Mehira Mehrnaz Multazam", "Nadiya Fajria Salsabila", "Novilly Azwan",
+                "Putri Mutia Rahmi", "Queenisa Yumna Zahirah", "Rita Madinatul Arofah", "Saffanah Saafia Zahirah", "Shelby Sinar Islamadina",
+                "Shira Rizkia Adara", "Siti Shofa Aulia Rahman", "Syifa Anindya", "Talita Himayatul Kamilah", "Talita Khansa Saputra",
+                "Zivana Lay", "Fathya Caliana", "Tsamarah Arissa Qaireen"
+            ],
+            "VII B PUTRI": [
+                "Aira Fitriani Azzahra", "Aisyah Fahira Husna", "Alya Zahra Nabila", "Ameera Isnain Setiadi", "Aulia Zahra Ibrahim",
+                "Azizahtun Nazwa", "Ghina Bilqis Shabreen", "Hafizhah Alimah", "Haninda Aulia Dayana", "Hilma Arifa Aulia Rosid",
+                "Jihan Amira Karim", "Keyla Khanza Ramadhani", "Kinara Rahmadania", "Nafisa Al Mahira", "Nailatisya Aquina Salsabilla",
+                "Nilam Maulina Anggraini", "R A Najeela Putri Widiarsa", "Rhaqueena Aleameccha Alingga", "Salsabila Zovanka", "Shakila Aulia Sakhiy",
+                "Shifa Mumtazah", "Siti Alifia Zahra", "Siti Zahwa Naura Auni", "Siti Ziarra Nur Al-jaelani", "Syafa Savira",
+                "Syakilah Putri Oktavia", "Syakirah Rizqia Ramadani", "Tiara Izzatunnisa", "Tuhfatun Najwa", "Vinca Fitranavira Putri",
+                "Zhafira Nur Azzahra", "Muthiah Lathifah Azzahra", "Avikah Rosafitri"
+            ],
+            "10 Putra": [
+                "Adhwa Arsya Gatfan", "Afa Zaidan Putra Tamba", "Ahmad Rafli Dhani Muzakki", "Akmal Ihsan Huwaidi", "Albisna Zinata Ababil",
+                "Asyraf Fairuz Mumtaz", "Attiq Muzaki Ibrahim", "Bayanaca Qotthon Elbarca", "Bazyli Rafif Azka", "Charli Andestian",
+                "Danendra Apta Kayana", "Dhafinzha Muhammad Fakhri", "Fasabbi Haqieqie Pramada Rozak", "Irsyad Haitami Fajrin", "Mochammad Alfath Dhafin",
+                "Muhamad Rafka Alvaro", "Muhammad Adil Shidqi", "Muhammad Agla Alfathur Rahman", "Muhammad Ammar Muzakki", "Muhammad Azmal Baihaqi Kayzen",
+                "Muhammad Azmi", "Muhammad Fahri Alfarizi", "Muhammad Fahri Rosadi", "Muhammad Suryo Nugra Putra Anwar", "Nawwaf Bilza Pakpahan",
+                "Raditya Bustanul Tamam", "Raihan Ramadhan", "Salim Al Habsyi", "Sayyid Aqil Sakhiy Wahyudi", "Yudha Pratama Nurwicaksana Nasution"
+            ],
+            "10 Putri": [
+                "Alfina Dhiya Ulhaq", "Amelinda Nur Febriana", "Amira Azzarine", "Anjeli Ghenia Asmedi", "Aulia Zahra Nur Sakinah",
+                "Callysta Zhahira", "Cinta Vinesya", "Citra Aulia Saputra", "Egidhea Sakha Gendis", "Faiha Ulayya",
+                "Kanaya Azzalea Maulida", "Kayla Putri Az Zahra", "Kesya Anastasya Putri", "Kesya Hana Alzena", "Khansa Avicenna",
+                "Maia Dina Islamiy Shobariah", "Najwa Althafunisa", "Nasya Adya Mustafidah", "Raihana Radwa Fahira", "Ratu Syahlina Samlawi",
+                "Siti Aulia Rahma", "Syifa Az Zahra", "Tia Anggrianti", "Ussy Elsinasari", "Vicky Fadilah Lutfiyana",
+                "Virly Evelyn Dean Zahra", "Wildatul Hasanah", "Yolanda Febriani", "Yuha Rizqiyatul Muyassaroh", "Zahiratul Aisyi",
+                "Zulfa Nurul Fauziah"
+            ]
+        };
+
+        // Fungsi untuk mengupdate dropdown nama santri
+        function updateSantriList() {
+            const kelasSelect = document.getElementById('kelasSantri');
+            const santriSelect = document.getElementById('namaSantri');
+            const selectedKelas = kelasSelect.value;
+
+            // Reset dan aktifkan dropdown santri
+            santriSelect.innerHTML = '<option value="" disabled selected>-- Pilih Nama Santri --</option>';
+            
+            if (selectedKelas && dataSantri[selectedKelas]) {
+                santriSelect.disabled = false;
+                santriSelect.classList.remove('bg-gray-100', 'cursor-not-allowed');
+                santriSelect.classList.add('bg-white');
+
+                // Urutkan nama sesuai abjad
+                const sortedNames = dataSantri[selectedKelas].sort();
+
+                sortedNames.forEach(nama => {
+                    const option = document.createElement('option');
+                    option.value = nama;
+                    option.textContent = nama;
+                    santriSelect.appendChild(option);
+                });
+            } else {
+                santriSelect.disabled = true;
+                santriSelect.classList.add('bg-gray-100', 'cursor-not-allowed');
+                santriSelect.classList.remove('bg-white');
+                santriSelect.innerHTML = '<option value="" disabled selected>Pilih kelas terlebih dahulu</option>';
+            }
+        }
+
+        // --- INSTRUKSI INTEGRASI GOOGLE SHEETS ---
+        // 1. Buat Google Sheets.
+        // 2. Klik Ekstensi > Apps Script.
+        // 3. Masukkan kode doPost(e) sesuai instruksi.
+        // 4. Deploy sebagai Web App (Akses: Siapa saja).
+        // 5. Salin URL Web App dan paste di bawah ini:
+        
+        // PASTE URL WEB APP ANDA DI SINI
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx0_8rzb6A9VyCIOEuJ0voQwwdvNDjcagCQC0nvc1NisFNW3mQlf4Jp5EjMRRN--er1/exec'; 
+        
+        const form = document.forms['evaluationForm'];
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const successModal = document.getElementById('successModal');
+        const modalContent = document.getElementById('modalContent');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            // UI Update: Show loading state
+            btnText.textContent = 'Mengirim...';
+            btnIcon.classList.add('hidden');
+            loadingSpinner.classList.remove('hidden');
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            // Collect form data
+            const formData = new FormData(form);
+
+            // --- KODE ASLI UNTUK PRODUKSI ---
+            // Kode ini akan mengirim data ke Google Sheets Anda
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => {
+                    showSuccessModal();
+                    form.reset();
+                    resetButton();
+                    // Reset nama santri dropdown
+                    document.getElementById('namaSantri').innerHTML = '<option value="" disabled selected>Pilih kelas terlebih dahulu</option>';
+                    document.getElementById('namaSantri').disabled = true;
+                    document.getElementById('namaSantri').classList.add('bg-gray-100', 'cursor-not-allowed');
+                    document.getElementById('namaSantri').classList.remove('bg-white');
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    alert('Maaf, terjadi kesalahan atau Anda belum memasukkan URL Script yang benar. Silakan cek console.');
+                    resetButton();
+                });
+            
+            // --- HAPUS KODE SIMULASI INI JIKA SUDAH MENGGUNAKAN FETCH DI ATAS ---
+            // setTimeout(() => {
+            //     showSuccessModal();
+            //     form.reset();
+            //     resetButton();
+            // }, 1500);
+        });
+
+        function resetButton() {
+            btnText.textContent = 'Kirim Evaluasi';
+            btnIcon.classList.remove('hidden');
+            loadingSpinner.classList.add('hidden');
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+
+        function showSuccessModal() {
+            successModal.classList.remove('hidden');
+            // Trigger reflow
+            void successModal.offsetWidth;
+            modalContent.classList.replace('scale-95', 'scale-100');
+        }
+
+        function closeModal() {
+            modalContent.classList.replace('scale-100', 'scale-95');
+            setTimeout(() => {
+                successModal.classList.add('hidden');
+            }, 200); // Wait for transition
+        }
+    </script>
+</body>
+</html>
